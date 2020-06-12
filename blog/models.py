@@ -25,5 +25,13 @@ class Article(models.Model):
             img.save(self.image.path)
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=200)
+    article = models.ManyToManyField(Article)
 
-   
+
+class Comment(models.Model):
+    name = models.CharField(200)
+    text = models.TextField()
+    pub_date = models.DateTimeField(default=timezone.now)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
