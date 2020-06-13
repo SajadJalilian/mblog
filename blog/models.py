@@ -1,13 +1,15 @@
 from django.db import models
+
 from django.utils import timezone
 
 from django.contrib.auth.models import User
+
 from PIL import Image
 
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    content = models.TextField()
     is_published = models.BooleanField(default=True)
     pub_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(default='default.jpg', upload_to='article_pics')
@@ -32,6 +34,6 @@ class Category(models.Model):
 
 class Comment(models.Model):
     name = models.CharField(200)
-    text = models.TextField()
+    content = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
