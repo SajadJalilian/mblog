@@ -14,7 +14,9 @@ class Article(models.Model):
     pub_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(default='default.jpg', upload_to='article_pics')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
+    def __str__(self):
+        return self.title
 
     def save(self, *args, **kawrgs):
         super().save(*args, **kawrgs)
@@ -30,6 +32,9 @@ class Article(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=200)
     article = models.ManyToManyField(Article)
+    
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
@@ -37,3 +42,6 @@ class Comment(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} - {}'.format(self.name, self.content[:20])
