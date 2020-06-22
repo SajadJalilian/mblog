@@ -6,24 +6,23 @@ from django.contrib.auth.models import User
 
 from PIL import Image
 
-
 class Category(models.Model):
     title = models.CharField(max_length=200)
 
     class Meta:
         verbose_name_plural = 'categories'
-
+    
     def __str__(self):
         return self.title
 
 
-class Article(models.Model):
+class Post(models.Model):
     category = models.ManyToManyField(Category)
     title = models.CharField(max_length=200)
     content = models.TextField()
     is_published = models.BooleanField(default=True)
     pub_date = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(default='default_image.jpg', upload_to='article_pics')
+    image = models.ImageField(default='default_image.jpg', upload_to='post_pics')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -44,7 +43,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=200)
     content = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} - {}'.format(self.name, self.content[:20])
